@@ -242,8 +242,13 @@ $SG = "sgtilltsg.optimahq.com"
     }
 
 
+    
 
- 
+
+######################
+#####  FUNCTIONS #####
+######################
+
 ###  Testing ENDPOINT status
 function Test-ENDPOINT {
     param(
