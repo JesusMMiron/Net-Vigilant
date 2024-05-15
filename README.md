@@ -1,5 +1,6 @@
-ENG
-**********
+*************
+**** ENG ****
+*************
 This code is a PowerShell script that monitors the status of various services and endpoints in a network environment. Here is the description of the main parts of the script:
 
 Log path definition: The script checks if certain directories exist in the system and sets the path of the log file based on their existence.
@@ -12,8 +13,8 @@ ENDPOINT test function: This is a custom function that attempts to establish a T
 In summary, this script continuously monitors the connectivity to various services and endpoints in a network environment and logs the status changes in a log file for further analysis or tracking.
 
 
-
-ESP
+*************
+**** ESP ****
 *************
 Este código es un script de PowerShell que monitorea el estado de varios servicios y endpoints en un entorno de red. Aquí está la descripción de las principales partes del script:
 
