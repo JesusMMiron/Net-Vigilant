@@ -119,10 +119,10 @@ $RDP_Last_Status = 1
                     Add-Content -Path $logPath -Value "[$formattedDatetime] RTS - Reconnected"
                     #### Write-Host -ForegroundColor Green "RTS Reconnected"
                 }
-                 if ($DELAWARE_Last_Status -eq 0 -and $DELAWARE_Status -eq 1){
+                if ($DELAWARE_Last_Status -eq 0 -and $DELAWARE_Status -eq 1){
                     Add-Content -Path $logPath -Value "[$formattedDatetime] DELAWARE - Reconnected"
                 }
-                 if ($UPDATER_Last_Status -eq 0 -and $UPDATER_Status -eq 1){
+                if ($UPDATER_Last_Status -eq 0 -and $UPDATER_Status -eq 1){
                     Add-Content -Path $logPath -Value "[$formattedDatetime] FTP - Reconnected"
                 }
 
