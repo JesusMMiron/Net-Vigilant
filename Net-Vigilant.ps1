@@ -228,6 +228,13 @@ $SG = "sgtilltsg.optimahq.com"
                     }
                 }
 
+                # Reconnected service?
+                if ($RDP_Last_Status -eq 0 -and $RDP_Status -eq 1){
+                    Add-Content -Path $logPath -Value "[$formattedDatetime] RDP Endpoint - Reconnected"
+                }
+
+                $RDP_Last_Status = $RDP_Status
+
                 # Sleep for half second.
                 Start-Sleep -Milliseconds 500
             }
