@@ -35,9 +35,8 @@ function Test-ENDPOINT {
     }
 }
 
-###############    WORKING    #############
-###  Checking if LOG name should be changed
 
+###  Checking if LOG name should be changed
 function Set-LogPath {
     param(
         [string]$previousDate,
@@ -66,8 +65,6 @@ function Set-LogPath {
         Write-Host "An error occurred: $_"
     }
 }
-
-###########################################
 
 
 
