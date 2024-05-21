@@ -178,9 +178,3 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
     }
 }
 
-   
-
-
-
- 
- 
