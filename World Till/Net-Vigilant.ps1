@@ -3,8 +3,41 @@
 ####################################
  
 Write-Host ""
-Write-Host "Net-Vigilant 1.0"
+Write-Host "SportRadar Net-Vigilant 1.0"
 Write-Host ""
+
+
+#################################
+#####  FUNCTIONS DEFINITION #####
+#################################
+
+###  Testing ENDPOINT status
+function Test-ENDPOINT {
+    param(
+        [string]$ComputerName,
+        [int]$Port
+    )
+ 
+    try {
+        $tcpClient = New-Object System.Net.Sockets.TcpClient
+        $tcpClient.Connect($ComputerName, $Port)
+        if ($tcpClient.Connected) {
+            return 1
+        } else {
+            return 0
+        }
+    } catch {
+        return 0
+    } finally {
+        if ($tcpClient) {
+            $tcpClient.Close()
+        }
+    }
+}
+
+
+
+
 
 # 1 variable for date + hour // the other for only date
 $datetime = Get-Date
@@ -41,11 +74,11 @@ $UPDATER_Last_Status = 1
 
 # Checking if World Till installation exists.
 
-Write-Host -ForegroundColor Green "CONTROL 1"
+
 if (Test-Path ".\WorldTill.exe.settings.xml") {
-    Write-Host -ForegroundColor Green "CONTROL 2"
-    
-    Write-Host -ForegroundColor Green "WorldTill settings file found."
+
+    Write-Host -ForegroundColor Green "WorldTill.exe.settings.xml file found."
+    Write-Host ""
 
     # Path definition
     $pathSettings = ".\WorldTill.exe.settings.xml"
@@ -64,14 +97,19 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
     $match = $regex.Match($configContent)
     if ($match.Success) {
         $UPDATER = $match.Groups[1].Value
-        $ftpServer = $uriValue -replace '^ftp://', ''
+        $ftpServer = $UPDATER -replace '^ftp://', ''
     }
 
     # Display the values from RTS_HOST and DELAWARE
     Write-Host -ForegroundColor Green "RTS endpoint is: $($RTS_HOST.'#text')"
     Write-Host -ForegroundColor Green "Delaware endpoint is: $($DELAWARE.'#text')"
     Write-Host -ForegroundColor Green "Optima Updater endpoint is: $ftpServer"
-     
+    Write-Host ""
+    Write-Host -ForegroundColor Yellow "Starting connectivity test now."
+    Write-Host -ForegroundColor Yellow "Please close this window when you finish."
+    Write-Host ""
+    Write-Host -ForegroundColor Yellow "Logs can be found and reviewed here: $logPath"
+
     # Network check loop
     while ($true) {
         # Testing connectivity to endpoint through port 443. 
@@ -142,32 +180,6 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
    
 
 
-######################
-#####  FUNCTIONS #####
-######################
 
-###  Testing ENDPOINT status
-function Test-ENDPOINT {
-    param(
-        [string]$ComputerName,
-        [int]$Port
-    )
- 
-    try {
-        $tcpClient = New-Object System.Net.Sockets.TcpClient
-        $tcpClient.Connect($ComputerName, $Port)
-        if ($tcpClient.Connected) {
-            return 1
-        } else {
-            return 0
-        }
-    } catch {
-        return 0
-    } finally {
-        if ($tcpClient) {
-            $tcpClient.Close()
-        }
-    }
-}
  
  
