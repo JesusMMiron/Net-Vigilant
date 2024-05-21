@@ -37,7 +37,9 @@ function Test-ENDPOINT {
 
 
 
-
+###############################
+##### VAR and Checkpoints #####
+###############################
 
 # 1 variable for date + hour // the other for only date
 $datetime = Get-Date
@@ -58,7 +60,6 @@ if (Test-Path "C:\ProgramData\Optima Information Services\World Till\Logs") {
 # Set starting message on LOG
 Add-Content -Path $logPath -Value "[$formattedDatetime] ### SportRadar Net-Vigilant started. ###"
 
-
 # Status variable control. Starting value 1 = TRUE
 $RTS_Last_Status = 1
 $DELAWARE_Last_Status = 1
@@ -69,7 +70,7 @@ $UPDATER_Last_Status = 1
 
 ######################
 ##### WORLD TILL #####
-######################
+###################### 
 
 
 # Checking if World Till installation exists.
