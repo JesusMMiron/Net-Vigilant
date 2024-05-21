@@ -35,6 +35,40 @@ function Test-ENDPOINT {
     }
 }
 
+###############    WORKING    #############
+###  Checking if LOG name should be changed
+
+function Set-LogPath {
+    param(
+        [string]$previousDate,
+        [string]$logPath
+    )
+    try {
+        $newdatetime = Get-Date
+        $newformattedDate = $newdatetime.ToString("dd-MM-yyyy")
+        
+        if ($previousDate -ne $newformattedDate){
+            # Ensure the directory exists, if not, create it.
+            $directory = [System.IO.Path]::GetDirectoryName($logPath)
+            if (-not (Test-Path -Path $directory)) {
+                New-Item -Path $logPath -ItemType File
+            }
+
+            # Create the new log file
+            $newLogPath = "$directory\$newformattedDate Net-Vigilant.log"
+            New-Item -Path $newLogPath -ItemType File | Out-Null
+
+            return $newLogPath
+        } else {
+            return $logPath
+        }
+    } catch {
+        Write-Host "An error occurred: $_"
+    }
+}
+
+###########################################
+
 
 
 ###############################
@@ -118,6 +152,9 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
         $RTS_Status = Test-ENDPOINT -ComputerName $($RTS_HOST.'#text') -Port 55555
         $DELAWARE_Status = Test-ENDPOINT -ComputerName $($DELAWARE.'#text') -Port 443
         $UPDATER_Status = Test-ENDPOINT -ComputerName $ftpServer -Port 21
+
+        # Checking if new date for updating file log.
+        $logPath = Set-LogPath -previousDate $previousDate -logPath $logPath
 
         if ($RTS_Status -eq 0){
 
