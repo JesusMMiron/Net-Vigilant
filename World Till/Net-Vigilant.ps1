@@ -6,18 +6,25 @@ Write-Host ""
 Write-Host "Net-Vigilant 1.0"
 Write-Host ""
 
-
-# Set starting time and message on LOG
 # 1 variable for date + hour // the other for only date
 $datetime = Get-Date
 $formattedDate = $datetime.ToString("dd-MM-yyyy")
 $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
-Add-Content -Path $logPath -Value "[$formattedDatetime] ### SportRadar Net-Vigilant started. ###"
 
 # Setting log path
 if (Test-Path "C:\ProgramData\Optima Information Services\World Till\Logs") {
-    $logPath = "C:\ProgramData\Optima Information Services\World Till\Logs\[$formattedDate] Net-Vigilant.log"
+    $logPath = "C:\ProgramData\Optima Information Services\World Till\Logs\$formattedDate Net-Vigilant.log"
+
+    # Ensure the directory exists, if not, create it.
+    $directory = [System.IO.Path]::GetDirectoryName($logPath)
+    if (-not (Test-Path -Path $directory)) {
+        New-Item -Path $logPath -ItemType File
+    }
 } 
+
+# Set starting message on LOG
+Add-Content -Path $logPath -Value "[$formattedDatetime] ### SportRadar Net-Vigilant started. ###"
+
 
 # Status variable control. Starting value 1 = TRUE
 $RTS_Last_Status = 1
@@ -33,8 +40,10 @@ $UPDATER_Last_Status = 1
 
 
 # Checking if World Till installation exists.
- 
+
+Write-Host -ForegroundColor Green "CONTROL 1"
 if (Test-Path ".\WorldTill.exe.settings.xml") {
+    Write-Host -ForegroundColor Green "CONTROL 2"
     
     Write-Host -ForegroundColor Green "WorldTill settings file found."
 
