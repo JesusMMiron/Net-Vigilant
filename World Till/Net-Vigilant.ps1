@@ -174,7 +174,7 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
         }
 
         if ($UPDATER_Status -eq 0){
-            # Gather the actual datetime and format to standart
+            # Gather the actual datetime and format to standard
             $datetime = Get-Date
             $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
      
