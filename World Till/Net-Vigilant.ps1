@@ -6,21 +6,20 @@ Write-Host ""
 Write-Host "Net-Vigilant 1.0"
 Write-Host ""
 
-# Setting log path
-if (Test-Path "C:\ProgramData\Optima Information Services\World Till\Logs") {
-    $logPath = "C:\ProgramData\Optima Information Services\World Till\Logs\Net-Vigilant.log"
-} else {
-    if (Test-Path "C:\Program Files (x86)\Serverless\Logs") {
-        $logPath = "C:\Program Files (x86)\Serverless\Logs\Net-Vigilant.log"
-    } 
-}
 
 # Set starting time and message on LOG
+# 1 variable for date + hour // the other for only date
 $datetime = Get-Date
+$formattedDate = $datetime.ToString("dd-MM-yyyy")
 $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
 Add-Content -Path $logPath -Value "[$formattedDatetime] ### SportRadar Net-Vigilant started. ###"
 
-# Status variable TODO
+# Setting log path
+if (Test-Path "C:\ProgramData\Optima Information Services\World Till\Logs") {
+    $logPath = "C:\ProgramData\Optima Information Services\World Till\Logs\[$formattedDate] Net-Vigilant.log"
+} 
+
+# Status variable control. Starting value 1 = TRUE
 $RTS_Last_Status = 1
 $DELAWARE_Last_Status = 1
 $UPDATER_Last_Status = 1
