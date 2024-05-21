@@ -30,7 +30,6 @@ function Test-ENDPOINT {
         return 0
     } finally {
         $tcpClient.Close()
-
     }
 }
 
