@@ -151,7 +151,6 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
         $logPath = Set-LogPath -previousDate $formattedDate -logPath $logPath
 
         if ($RTS_Status -eq 0){
-
             # Gather the actual datetime and format to standard
             $datetime = Get-Date
             $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
