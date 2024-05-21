@@ -154,7 +154,7 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
         $UPDATER_Status = Test-ENDPOINT -ComputerName $ftpServer -Port 21
 
         # Checking if new date for updating file log.
-        $logPath = Set-LogPath -previousDate $previousDate -logPath $logPath
+        $logPath = Set-LogPath -previousDate $formattedDate -logPath $logPath
 
         if ($RTS_Status -eq 0){
 
