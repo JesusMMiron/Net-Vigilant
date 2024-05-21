@@ -29,9 +29,8 @@ function Test-ENDPOINT {
     } catch {
         return 0
     } finally {
-        if ($tcpClient) {
-            $tcpClient.Close()
-        }
+        $tcpClient.Close()
+
     }
 }
 
@@ -105,8 +104,6 @@ $UPDATER_Last_Status = 1
 
 
 # Checking if World Till installation exists.
-
-
 if (Test-Path ".\WorldTill.exe.settings.xml") {
 
     Write-Host -ForegroundColor Green "WorldTill.exe.settings.xml file found."
@@ -199,7 +196,7 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
             Add-Content -Path $logPath -Value "[$formattedDatetime] DELAWARE - Reconnected"
         }
         if ($UPDATER_Last_Status -eq 0 -and $UPDATER_Status -eq 1){
-            Add-Content -Path $logPath -Value "[$formattedDatetime] FTP - Reconnected"
+            Add-Content -Path $logPath -Value "[$formattedDatetime] Optima Updater - Reconnected"
         }
 
         $RTS_Last_Status = $RTS_Status
