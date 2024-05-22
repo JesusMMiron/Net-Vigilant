@@ -96,7 +96,7 @@ if (Test-Path "C:\Program Files (x86)\Serverless\Logs") {
 
 # Status variable for recoonections. Start value 1 = true
 $RDP_Last_Status = 1
-$RDP_Last_Status_online = 1
+$ONLINE_Last_Status = 1
 
 
 
