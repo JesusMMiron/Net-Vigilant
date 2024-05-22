@@ -126,24 +126,22 @@ function Write-Log {
         }
 
         # Write in log the info
-        if ($RDP_Status -eq 0){
+        if ($StatusRDP -eq 0){
             Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - DOWN"
         }
         
         # Write in log the info
-        if ($RDP_Status_online -eq 0){
+        if ($StatusONLINE -eq 0){
             Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - DOWN"
         }
 
         #  write message (check if reconnected)
-        if ($prevStatusRDP -eq 0 -and $actualStatus -eq 1){
+        if ($prevStatusRDP -eq 0 -and $StatusRDP -eq 1){
             Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - Reconnected"
         }
-        
-        # if exist, write message (check if reconnected)
-        Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - DOWN"
-        Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - Reconnected"
-
+        if ($prevStatusONLINE -eq 0 -and $StatusONLINE -eq 1){
+            Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - Reconnected"
+        }
     } catch {
         Write-Host "Could not create log."
     }
