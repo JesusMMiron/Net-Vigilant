@@ -74,7 +74,7 @@ function Set-LogPath {
 ###############################
 
 # Endpoint definition:
-$DP = "dptilltsg2.optimahq.com"
+$DP = "localhost"
 
 # 1 variable for date + hour // the other for only date
 $datetime = Get-Date
@@ -105,9 +105,7 @@ $ONLINE_Last_Status = 1
 ##### Betting Till #####
 ########################
 
-Write-Log -logPath $logPath -formattedDatetime $formattedDatetime -StatusRDP $RDP_Status -StatusONLINE $ONLINE_Status -prevStatusRDP $RDP_Last_Status -prevStatusONLINE $ONLINE_Last_Status
-
-function Write-Log {
+function Writelog {
     param(
         [string]$logPath,               # Windows Path
         [string]$formattedDatetime,     # dd-MM-yyyy 
@@ -119,10 +117,9 @@ function Write-Log {
     try {
         
         # Chek of log exist
-        $directory = [System.IO.Path]::GetDirectoryName($logPath)
-        if (-not (Test-Path -Path $directory)){
+        if (-not (Test-Path -Path $logPath)){
             New-Item -Path $logPath -ItemType File
-            Write-Host -ForegroundColor Red "LOG CREATED"
+            Add-Content -Path $logPath -Value "[$formattedDatetime] WARN!! Log was created back due deletion."
         }
 
         # Write in log the info
@@ -146,6 +143,7 @@ function Write-Log {
         Write-Host "Could not create or writing the log."
     }
 }
+
 ##########################
 
 # Checking if Betting Till installation exists.
@@ -163,35 +161,17 @@ function Write-Log {
             $logPath = Set-LogPath -previousDate $formattedDate -logPath $logPath 
 
 
-            $RDP_Status = Test-ENDPOINT -ComputerName $DP -Port 443
+            $RDP_Status = Test-ENDPOINT -ComputerName $DP -Port 50000
             $ONLINE_Status = Test-ENDPOINT -ComputerName "google.com" -Port 443
 
             # Gather the actual datetime and format to standart
             $datetime = Get-Date
             $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
 
-
-            if ($RDP_Status -eq 0){
-                # Write in log the info
-                Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - DOWN"
-            }
-
-            if ($ONLINE_Status -eq 0){
-                # Write in log the info
-                Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - DOWN"
-            }
-
-
-            # Reconnected service?
-            if ($RDP_Last_Status -eq 0 -and $RDP_Status -eq 1){
-                Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - Reconnected"
-            }
-            if ($ONLINE_Last_Status -eq 0 -and $ONLINE_Status -eq 1){
-                Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - Reconnected"
-            }
+            Writelog -logPath $logPath -formattedDatetime $formattedDatetime -StatusRDP $RDP_Status -StatusONLINE $ONLINE_Status -prevStatusRDP $RDP_Last_Status -prevStatusONLINE $ONLINE_Last_Status
 
             $RDP_Last_Status = $RDP_Status
-            $ONLINE_Last_Status = $RDP_Status_online
+            $ONLINE_Last_Status = $ONLINE_Status
 
             # Sleep for half second.
             Start-Sleep -Milliseconds 500
