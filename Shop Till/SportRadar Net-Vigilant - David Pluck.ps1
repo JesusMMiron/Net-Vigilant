@@ -65,46 +65,6 @@ function Set-LogPath {
 }
 
 
-
-
-
-
-###############################
-##### VAR and Checkpoints #####
-###############################
-
-# Endpoint definition:
-$DP = "dptilltsg2.optimahq.com"
-
-# 1 variable for date + hour // the other for only date
-$datetime = Get-Date
-$formattedDate = $datetime.ToString("dd-MM-yyyy")
-$formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
-
-# Setting log path
-if (Test-Path "C:\Program Files (x86)\Serverless\Logs") {
-    $logPath = "C:\Program Files (x86)\Serverless\Logs\$formattedDate Net-Vigilant.log"
-
-    # Ensure the directory exists, if not, create it.
-    $directory = [System.IO.Path]::GetDirectoryName($logPath)
-    if (-not (Test-Path -Path $directory)) {
-        New-Item -Path $logPath -ItemType File
-    }
-} 
-
-
-
-# Status variable for recoonections. Start value 1 = true
-$RDP_Last_Status = 1
-$ONLINE_Last_Status = 1
-
-
-
-
-########################
-##### Betting Till #####
-########################
-
 function Writelog {
     param(
         [string]$logPath,               # Windows Path
@@ -144,7 +104,44 @@ function Writelog {
     }
 }
 
-##########################
+
+
+###############################
+##### VAR and Checkpoints #####
+###############################
+
+# Endpoint definition:
+$DP = "dptilltsg2.optimahq.com"
+
+# 1 variable for date + hour // the other for only date
+$datetime = Get-Date
+$formattedDate = $datetime.ToString("dd-MM-yyyy")
+$formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
+
+# Setting log path
+if (Test-Path "C:\Program Files (x86)\Serverless\Logs") {
+    $logPath = "C:\Program Files (x86)\Serverless\Logs\$formattedDate Net-Vigilant.log"
+
+    # Ensure the directory exists, if not, create it.
+    $directory = [System.IO.Path]::GetDirectoryName($logPath)
+    if (-not (Test-Path -Path $directory)) {
+        New-Item -Path $logPath -ItemType File
+    }
+} 
+
+
+
+# Status variable for recoonections. Start value 1 = true
+$RDP_Last_Status = 1
+$ONLINE_Last_Status = 1
+
+
+
+
+########################
+##### Betting Till #####
+########################
+
 
 # Checking if Betting Till installation exists.
     if (Test-Path "C:\Program Files (x86)\Serverless") {
