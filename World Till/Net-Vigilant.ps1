@@ -146,14 +146,15 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
         $DELAWARE_Status = Test-ENDPOINT -ComputerName $($DELAWARE.'#text') -Port 443
         $UPDATER_Status = Test-ENDPOINT -ComputerName $ftpServer -Port 21
 
-        # Checking if new date for updating file log.
+        # Checking if new date for updating file log or file removed.
         $logPath = Set-LogPath -previousDate $formattedDate -logPath $logPath
+        
+        # Gather the actual datetime and format to standard
+        $datetime = Get-Date
+        $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
+
 
         if ($RTS_Status -eq 0){
-            # Gather the actual datetime and format to standard
-            $datetime = Get-Date
-            $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
-     
             # Write in log the info
             Add-Content -Path $logPath -Value "[$formattedDatetime] RTS - DOWN"
             #### Write-Host -ForegroundColor Red "RTS Down"
@@ -163,10 +164,6 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
         }
      
         if ($DELAWARE_Status -eq 0){
-            # Gather the actual datetime and format to standart
-            $datetime = Get-Date
-            $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
-     
             # Write in log the info
             Add-Content -Path $logPath -Value "[$formattedDatetime] Delaware - DOWN"
 
@@ -174,10 +171,6 @@ if (Test-Path ".\WorldTill.exe.settings.xml") {
         }
 
         if ($UPDATER_Status -eq 0){
-            # Gather the actual datetime and format to standard
-            $datetime = Get-Date
-            $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
-     
             # Write in log the info
             Add-Content -Path $logPath -Value "[$formattedDatetime] Optima Updater - DOWN"
 
