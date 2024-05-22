@@ -69,10 +69,10 @@ function Writelog {
     param(
         [string]$logPath,               # Windows Path
         [string]$formattedDatetime,     # dd-MM-yyyy 
-        [int]$StatusRDP,                # 1 0
-        [int]$StatusONLINE,             # 1 0
-        [int]$prevStatusRDP,            # 1 0
-        [int]$prevStatusONLINE          # 1 0
+        [int]$StatusRDP,                # 1 up // 0 down
+        [int]$StatusONLINE,             # 1 up // 0 down
+        [int]$prevStatusRDP,            # 1 up // 0 down
+        [int]$prevStatusONLINE          # 1 up // 0 down
     )
     try {
         
