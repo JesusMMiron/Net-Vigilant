@@ -143,7 +143,7 @@ function Write-Log {
             Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - Reconnected"
         }
     } catch {
-        Write-Host "Could not create log."
+        Write-Host "Could not create or writing the log."
     }
 }
 ##########################
