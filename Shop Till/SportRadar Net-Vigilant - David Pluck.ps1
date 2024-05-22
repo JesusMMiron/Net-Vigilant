@@ -96,6 +96,8 @@ function Writelog {
         if ($prevStatusRDP -eq 0 -and $StatusRDP -eq 1){
             Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - Reconnected"
         }
+
+        #  write message (check if reconnected)
         if ($prevStatusONLINE -eq 0 -and $StatusONLINE -eq 1){
             Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - Reconnected"
         }
