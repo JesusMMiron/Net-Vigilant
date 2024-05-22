@@ -74,7 +74,7 @@ function Set-LogPath {
 ###############################
 
 # Endpoint definition:
-$DP = "localhost"
+$DP = "dptilltsg2.optimahq.com"
 
 # 1 variable for date + hour // the other for only date
 $datetime = Get-Date
@@ -161,7 +161,7 @@ function Writelog {
             $logPath = Set-LogPath -previousDate $formattedDate -logPath $logPath 
 
 
-            $RDP_Status = Test-ENDPOINT -ComputerName $DP -Port 50000
+            $RDP_Status = Test-ENDPOINT -ComputerName $DP -Port 443
             $ONLINE_Status = Test-ENDPOINT -ComputerName "google.com" -Port 443
 
             # Gather the actual datetime and format to standart
