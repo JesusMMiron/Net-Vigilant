@@ -105,23 +105,45 @@ $RDP_Last_Status_online = 1
 ##### Betting Till #####
 ########################
 
-Write-Log -logPath $logPath -formattedDatetime $formattedDatetime -prevStatus $prevStatus -actualStatus $actualStatus
+Write-Log -logPath $logPath -formattedDatetime $formattedDatetime -StatusRDP $RDP_Status -StatusONLINE $ONLINE_Status -prevStatusRDP $RDP_Last_Status -prevStatusONLINE $ONLINE_Last_Status
 
 function Write-Log {
     param(
-        [string]$logPath,
-        [string]$formattedDatetime,
-        [int]$prevStatus,
-        [int]$actualStatus
+        [string]$logPath,               # Windows Path
+        [string]$formattedDatetime,     # dd-MM-yyyy 
+        [int]$StatusRDP,                # 1 0
+        [int]$StatusONLINE,             # 1 0
+        [int]$prevStatusRDP,            # 1 0
+        [int]$prevStatusONLINE          # 1 0
     )
     try {
-            if ($null){
-            # Chek of log exist
-            # if not, create log and write message (check if reconnected)
-            # if exist, write message (check if reconnected)
+        
+        # Chek of log exist
+        $directory = [System.IO.Path]::GetDirectoryName($logPath)
+        if (-not (Test-Path -Path $directory)){
+            New-Item -Path $logPath -ItemType File
+            Write-Host -ForegroundColor Red "LOG CREATED"
+        }
+
+        # Write in log the info
+        if ($RDP_Status -eq 0){
+            Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - DOWN"
+        }
+        
+        # Write in log the info
+        if ($RDP_Status_online -eq 0){
             Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - DOWN"
+        }
+
+        #  write message (check if reconnected)
+        if ($prevStatusRDP -eq 0 -and $actualStatus -eq 1){
             Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - Reconnected"
-        } 
+        }
+        
+        # if exist, write message (check if reconnected)
+        Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - DOWN"
+        Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - Reconnected"
+
     } catch {
         Write-Host "Could not create log."
     }
@@ -144,7 +166,7 @@ function Write-Log {
 
 
             $RDP_Status = Test-ENDPOINT -ComputerName $DP -Port 443
-            $RDP_Status_online = Test-ENDPOINT -ComputerName "google.com" -Port 443
+            $ONLINE_Status = Test-ENDPOINT -ComputerName "google.com" -Port 443
 
             # Gather the actual datetime and format to standart
             $datetime = Get-Date
@@ -156,7 +178,7 @@ function Write-Log {
                 Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - DOWN"
             }
 
-            if ($RDP_Status_online -eq 0){
+            if ($ONLINE_Status -eq 0){
                 # Write in log the info
                 Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - DOWN"
             }
@@ -166,12 +188,12 @@ function Write-Log {
             if ($RDP_Last_Status -eq 0 -and $RDP_Status -eq 1){
                 Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint $DP - Reconnected"
             }
-            if ($RDP_Last_Status_online -eq 0 -and $RDP_Status_online -eq 1){
+            if ($ONLINE_Last_Status -eq 0 -and $ONLINE_Status -eq 1){
                 Add-Content -Path $logPath -Value "[$formattedDatetime] Endpoint GOOGLE - Reconnected"
             }
 
             $RDP_Last_Status = $RDP_Status
-            $RDP_Last_Status_online = $RDP_Status_online
+            $ONLINE_Last_Status = $RDP_Status_online
 
             # Sleep for half second.
             Start-Sleep -Milliseconds 500
