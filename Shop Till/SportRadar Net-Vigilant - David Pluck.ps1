@@ -146,36 +146,35 @@ $ONLINE_Last_Status = 1
 
 
 # Checking if Betting Till installation exists.
-    if (Test-Path "C:\Program Files (x86)\Serverless") {
+if (Test-Path "C:\Program Files (x86)\Serverless") {
 
-        Write-Host -ForegroundColor Green "Checking endpoint to $DP"
+	Write-Host -ForegroundColor Green "Checking endpoint to $DP"
 
-        # Set starting time and message on LOG
-        Add-Content -Path $logPath -Value "[$formattedDatetime] ### SportRadar Net-Vigilant started. ###"
+	# Set starting time and message on LOG
+	Add-Content -Path $logPath -Value "[$formattedDatetime] ### SportRadar Net-Vigilant started. ###"
 
-        # Network check loop
-        while ($true) {
+	# Network check loop
+	while ($true) {
 
-            # Checking if new date for updating file log.
-            $logPath = Set-LogPath -previousDate $formattedDate -logPath $logPath 
+		# Checking if new date for updating file log.
+		$logPath = Set-LogPath -previousDate $formattedDate -logPath $logPath 
 
 
-            $RDP_Status = Test-ENDPOINT -ComputerName $DP -Port 443
-            $ONLINE_Status = Test-ENDPOINT -ComputerName "google.com" -Port 443
+		$RDP_Status = Test-ENDPOINT -ComputerName $DP -Port 443
+		$ONLINE_Status = Test-ENDPOINT -ComputerName "google.com" -Port 443
 
-            # Gather the actual datetime and format to standart
-            $datetime = Get-Date
-            $formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
+		# Gather the actual datetime and format to standart
+		$datetime = Get-Date
+		$formattedDatetime = $datetime.ToString("yyyy-MM-dd HH:mm:ss")
 
-            Writelog -logPath $logPath -formattedDatetime $formattedDatetime -StatusRDP $RDP_Status -StatusONLINE $ONLINE_Status -prevStatusRDP $RDP_Last_Status -prevStatusONLINE $ONLINE_Last_Status
+		Writelog -logPath $logPath -formattedDatetime $formattedDatetime -StatusRDP $RDP_Status -StatusONLINE $ONLINE_Status -prevStatusRDP $RDP_Last_Status -prevStatusONLINE $ONLINE_Last_Status
 
-            $RDP_Last_Status = $RDP_Status
-            $ONLINE_Last_Status = $ONLINE_Status
+		$RDP_Last_Status = $RDP_Status
+		$ONLINE_Last_Status = $ONLINE_Status
 
-            # Sleep for half second.
-            Start-Sleep -Milliseconds 500
-        }
-    }
-        else {
-        Write-Host -ForegroundColor Red "Serverless not found on path 'C:\Program Files (x86)\Serverless'"
-    }
+		# Sleep for half second.
+		Start-Sleep -Milliseconds 500
+	}
+}	else {
+	Write-Host -ForegroundColor Red "Serverless not found on path 'C:\Program Files (x86)\Serverless'"
+}
